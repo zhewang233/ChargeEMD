@@ -166,18 +166,15 @@ int main(int argc, char** argv) {
 	vector<charge_t>().swap(exChargeFitted);
 
 	for (int i = 0; i < POINTS_NUM; i++) {
-		double small_num = TSEPSILON;
 		if (weightP[i] <= weightQ[i]) {
 			double temWeight = weightQ[i];
 			weightQ[i] = temWeight - weightP[i];
 			weightP[i] = 0;
-			//chargeTransferTotal -= small_num;
 		}
 		else {
 			double temWeight = weightP[i];
 			weightP[i] = temWeight - weightQ[i];
 			weightQ[i] = 0;
-			//chargeTransferTotal -= small_num;
 		}
 		chargeTransferTotal += weightP[i];
 	}
