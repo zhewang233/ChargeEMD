@@ -16,5 +16,6 @@ To use the code:
    ```
 
    For example:
-
-   `./emd ./example/input/fitting_grid.txt ./example/input/charge_gs.txt ./example/input/charge_ex.txt ./example/output/emd.txt`
+   ```shell
+   ./emd ./example/input/fitting_grid.txt ./example/input/charge_gs.txt ./example/input/charge_ex.txt ./example/output/emd.txt
+   ```
