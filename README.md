@@ -5,15 +5,15 @@
 - Jiashu Liang `<jsliang@berkeley.edu>`
 
 ## Description and Usage
-The script is designed to calculate the Earth Mover's Distance for comparing ground state and excited state charge distributions, contributing to the study of electronic properties related to excitations. It employs the Transport Simplex algorithm, with the core optimization code (`emd.h`) sourced from [this repository](https://github.com/engine99/transport-simplex) by Darren T. MacDonald.
+The script is designed to calculate the Earth Mover's Distance for comparing ground state and excited state charge distributions, contributing to the study of electronic properties related to excitations. It employs the Transport Simplex algorithm, with the core optimization code (`src/emd.h`) sourced from [this repository](https://github.com/engine99/transport-simplex) by Darren T. MacDonald.
 
 ### Usage
 To use the code:
 1. Prepare input data, including the ground state discrete charge distribution (x, y, z, and weight for each column), excited state discrete charge distribution (x, y, z, and weight), and the smaller grid for fitting (x, y, and z). Refer to the example input files in the `example/input` directory.
-2. Place `emd.h`, `main.cpp`, and input files in the same directory.
-3. Compile the code using the following commands:
+2. Run the code using the following commands:
    ```shell
-   g++ main.cpp -o emd
-   ./emd
+   ./emd FITTINGGRIDFILE GSDENSITYFILE EXDENSITYFILE EMDOUTPUTFILE
 
-The calculated Earth Mover's Distance (EMD) results will be saved in `emd.txt`.
+For example:
+   ```shell
+   ./emd ./example/input/fitting_grid.txt ./example/input/charge_gs.txt ./example/input/charge_ex.txt ./example/output/emd.txt
