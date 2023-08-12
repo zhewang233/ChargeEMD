@@ -7,6 +7,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <cstring>
 
 using namespace t_simplex;
 using namespace std;
@@ -68,15 +69,26 @@ int main(int argc, char** argv) {
 	vector<charge_t> gsCharge;
 	vector<charge_t> exCharge;
 
-	if (argc < 5) {
-		std::cout << "Please input the path of the grid file for fitting, the path of the ground state charge distribution file, the path of the excited state charge distribution file and the path of the output file." << endl;
+	if (argc == 2 && (strcmp(argv[1],"-h") == 0 || strcmp(argv[1],"--help") == 0)) {
+		std::cout << "Usage: ./emd [grid file for fitting] [ground state charge distribution file] [excited state charge distribution file] [output file]" << endl;
+		std::cout << "If the output file is not specified, the results will be printed on the screen." << endl;
+		exit(1);
+	}
+	else
+
+	if (argc < 4) {
+		std::cout << "Please input the path of the grid file for fitting, the path of the ground state charge distribution file, and the path of the excited state charge distribution file." << endl;
+		exit(1);
+	}
+
+	if (argc > 5) {
+		std::cout << "Too many arguments." << endl;
 		exit(1);
 	}
 
 	std::string fitGridPath = argv[1];
 	std::string gsChargePath = argv[2];
 	std::string exChargePath = argv[3];
-	std::string emdOutputPath = argv[4];
 	
 	if (!ifPathExist(fitGridPath)) {
 		std::cout << "The grid file for fitting does not exist." << endl;
@@ -90,9 +102,12 @@ int main(int argc, char** argv) {
 		std::cout << "The excited state charge distribution file does not exist." << endl;
 		exit(1);
 	}
-	if (!ifPathExist(emdOutputPath)) {
-		std::cout << "The output file does not exist." << endl;
-		exit(1);
+	if (argc == 5){
+		std::string emdOutputPath = argv[4];
+		if (!ifPathExist(emdOutputPath.substr(0,emdOutputPath.find_last_of("/")))) {
+			std::cout << "The path for storing output file does not exist." << endl;
+			exit(1);
+		}
 	}
 
 	ifstream inFile;
@@ -170,16 +185,6 @@ int main(int argc, char** argv) {
 	vector<charge_t> exChargeFitted = fitting(exCharge, fitGrids);
 	vector<charge_t>().swap(exCharge);
 
-	ofstream outFile;
-	outFile.open(emdOutputPath, ios::out);
-
-	if (!outFile) {
-		std::cout << "cannot open out file" << endl;
-		exit(1);
-	}
-
-	outFile << "dEMD" << " " << "qCT" << " " << "muEMD" << endl;
-
 	double chargeTransferTotal = 0;
 	const int POINTS_NUM = fitGrids.size();
 	feature_t* featureP = new feature_t[POINTS_NUM];
@@ -222,10 +227,27 @@ int main(int argc, char** argv) {
 	emdResult = transportSimplex(&srcSig, &snkSig, Dist, flow, &flowVars)/chargeTransferTotal;
 	end = clock();
 
-	outFile << emdResult << " " << chargeTransferTotal << " " << emdResult*chargeTransferTotal << endl;
+	if (argc == 5) {
+		std::string emdOutputPath = argv[4];
+		ofstream outFile;
+		outFile.open(emdOutputPath, ios::out);
+
+		if (!outFile) {
+			std::cout << "cannot open out file" << endl;
+			exit(1);
+		}
+
+		outFile << "dEMD" << " " << "qCT" << " " << "muEMD" << endl;
+
+		outFile << emdResult << " " << chargeTransferTotal << " " << emdResult*chargeTransferTotal << endl;
+		outFile.close();
+	}
+	else {
+		std::cout << "dEMD = " << emdResult << ", qCT = " << chargeTransferTotal << ", muEMD = " << emdResult*chargeTransferTotal << endl;
+	}
+
 	delete[]featureP;
 	delete[]featureQ;
 	delete[]weightP;
 	delete[]weightQ;
-	outFile.close();
 }
