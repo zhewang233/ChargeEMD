@@ -9,7 +9,7 @@ The script is designed to calculate the Earth Mover's Distance for comparing gro
 
 ### Usage
 To use the code:
-1. Prepare input data, including the ground state discrete charge distribution (x, y, z, and weight for each column), excited state discrete charge distribution (x, y, z, and weight), and the smaller grid for fitting (x, y, and z). Refer to the example input files in the `example/input` directory.
+1. Prepare input data, including the smaller grid for fitting (coordinate of the grid point (x, y, z)), the ground state discrete charge distribution (coordinate of the grid point (x, y, z), and total amount of charge on this grid point for each column), and the excited state discrete charge distribution (coordinate of the grid point (x, y, z), and total amount of charge on this grid point for each column). Refer to the example input files in the `example/input` directory.
 2. Run the code in the following format:
    ```shell
    ./emd FITTING_GRID_FILE GS_DENSITY_FILE EX_DENSITY_FILE EMD_OUTPUT_FILE

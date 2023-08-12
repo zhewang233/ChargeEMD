@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
 	}
 	if (argc == 5){
 		std::string emdOutputPath = argv[4];
-		if (!ifPathExist(emdOutputPath.substr(0,emdOutputPath.find_last_of("/")))) {
+		if (emdOutputPath.find_last_of("/") != std::string::npos && !ifPathExist(emdOutputPath.substr(0,emdOutputPath.find_last_of("/")))) {
 			std::cout << "The path for storing output file does not exist." << endl;
 			exit(1);
 		}
