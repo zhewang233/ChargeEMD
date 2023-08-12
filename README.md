@@ -14,8 +14,13 @@ To use the code:
    ```shell
    ./emd FITTING_GRID_FILE GS_DENSITY_FILE EX_DENSITY_FILE EMD_OUTPUT_FILE
    ```
+   Or
+   ```shell
+   ./emd FITTING_GRID_FILE GS_DENSITY_FILE EX_DENSITY_FILE
+   ```
+   so that the result will be print on the screen.
 
    For example:
    ```shell
-   ./emd ./example/input/fitting_grid.txt ./example/input/charge_gs.txt ./example/input/charge_ex.txt ./example/output/emd.txt
+   ./emd ./example/input/fitting_grid.txt ./example/input/charge_gs.txt ./example/input/charge_ex.txt ./emd.txt
    ```
